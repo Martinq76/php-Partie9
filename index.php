@@ -12,5 +12,6 @@
         <?php
         }
         ?>
+        <p><a href="tp/index.php">TP</a></p>
     </body>
 </html>
