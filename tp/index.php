@@ -1,7 +1,8 @@
 <?php
 $calendarMonths = ['1' => 'Janvier', '2' => 'Février', '3' => 'Mars', '4' => 'Avril', '5' => 'Mai', '6' => 'Juin', '7' => 'Juillet', '8' => 'Août', '9' => 'Septembre', '10' => 'Octobre', '11' => 'Novembre', '12' => 'Décembre'];
-$calendarYears = [0, 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025, 2026, 2027, 2028, 2029, 2030]
-?>
+$calendarYears = [0, 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025, 2026, 2027, 2028, 2029, 2030];
+$day = ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi', 'Dimanche'];
+        ?>
 <!DOCTYPE html>
 <html lang="fr" dir="ltr">
     <head>
@@ -40,22 +41,22 @@ $calendarYears = [0, 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009,
 
             <button type="submit" class="btn btn-primary my-1">Envoyé</button>
         </form>
-
         <?php
-        if (isset($_POST['selectMonths']) && isset($_POST['selectYears'])) { //Si les variables selectMonths et selectYears existent
+        if (isset($_POST['selectMonths']) && isset($_POST['selectYears'])) {
+            setlocale(LC_TIME, 'fr_FR.utf8');
             ?>
-        <p><b><?= strftime('%B %Y', mktime(0, 0, 0, $_POST['selectMonths'], 1, $_POST['selectYears']))?></b></p>
+   
             
-            <?php
-            $day = ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi', 'Dimanche'];
-            ?>
             <table class="table table-bordered">
                 <thead class="thead-dark">
                     <tr>
+                        <th colspan="7" class="text-center"><?= strftime('%B %Y', mktime(0, 0, 0, $_POST['selectMonths'], 1, $_POST['selectYears']))?></th>
+                    </tr>
+                    <tr>
                         <?php
-                        foreach ($day as $dayName) {
+                        foreach ($day as $name) {
                             ?>
-                            <th><?= $dayName ?></th>
+                            <th><?= $name ?></th>
                             <?php
                         }
                         ?>
@@ -66,21 +67,21 @@ $calendarYears = [0, 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009,
                     for ($i = 0; $i < 7; $i++):
                         ?>
                         <tr><?php
-                            for ($d = 1; $d < 8; $d++):
+                            for ($d = 0; $d < 7; $d++):
                                 ?>
                                 <td><?php
                                     if ($i == 1 and $d == strftime('%u', mktime(0, 0, 0, $_POST['selectMonths'], 1, $_POST['selectYears']))):
-                                        echo strftime('%e', mktime(0, 0, 0, $_POST['selectMonths'], $k + 1, $_POST['selectYears']));
-                                        $k++;
+                                        echo strftime('%e', mktime(0, 0, 0, $_POST['selectMonths'], $nbjour + 1, $_POST['selectYears']));
+                                        $nbJour++;
                                     elseif ($i == 1 and $d > strftime('%u', mktime(0, 0, 0, $_POST['selectMonths'], 1, $_POST['selectYears']))):
-                                        echo strftime('%e', mktime(0, 0, 0, $_POST['selectMonths'], $k + 1, $_POST['selectYears']));
-                                        $k++;
+                                        echo strftime('%e', mktime(0, 0, 0, $_POST['selectMonths'], $nbJour + 1, $_POST['selectYears']));
+                                        $nbJour++;
                                     elseif ($i > 1):
-                                        if ($k >= date('t', mktime(0, 0, 0, $_POST['selectMonths'], 1, $_POST['selectYears']))):
+                                        if ($nbJour >= date('t', mktime(0, 0, 0, $_POST['selectMonths'], 1, $_POST['selectYears']))):
                                             echo '';
                                         else:
-                                            echo strftime('%e', mktime(0, 0, 0, $_POST['selectMonths'], $k + 1, $_POST['selectYears']));
-                                            $k++;
+                                            echo strftime('%e', mktime(0, 0, 0, $_POST['selectMonths'], $nbJour + 1, $_POST['selectYears']));
+                                            $nbJour++;
                                         endif;
                                     endif;
                                     ?></td>
